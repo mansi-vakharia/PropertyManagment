@@ -1,0 +1,171 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Property";
+    string type = Session["TypeManagment"].ToString();
+    var numberList = new List<SelectListItem>() {
+new SelectListItem() { Text = "1", Value = "1" },
+new SelectListItem() { Text = "2", Value = "2" },
+new SelectListItem() { Text = "3", Value = "3" },
+new SelectListItem() { Text = "4", Value = "4" },
+new SelectListItem() { Text = "5", Value = "5" }
+};
+}
+
+@section search{
+
+    <!-- ======= Property Search Section ======= -->
+    <div class="click-closed"></div>
+    <!--/ Form Search Star /-->
+    <div class="box-collapse">
+        <div class="title-box-d">
+            <h3 class="title-d" style="text-transform: capitalize;">Search @type</h3>
+        </div>
+        <span class="close-box-collapse right-boxed bi bi-x"></span>
+        <div class="box-collapse-wrap form">
+
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    <div class="form-group">
+                        <label class="pb-2" for="Type">Keyword</label>
+                        <input type="text" class="keyword form-control form-control-lg form-control-a" placeholder="Keyword">
+                    </div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="form-group mt-3">
+                        <label class="pb-2" for="Badroom">Badroom</label>
+                        <select class="form-control form-select form-control-a" id="Badroom">
+                            <option value="">Select Badroom</option>
+                            @foreach (var b in numberList)
+                            {
+                                <option value="@b.Value">@b.Text</option>
+                            }
+                            @*<option>For Rent</option>
+                    <option>For Sale</option>
+                    <option>Open House</option>*@
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <div class="form-group mt-3">
+                        <label class="pb-2" for="Bathroom">Bathroom</label>
+                        <select class="form-control form-select form-control-a" id="Bathroom">
+                            <option value="">Select Bathroom</option>
+                            @foreach (var b in numberList)
+                            {
+                                <option value="@b.Value">@b.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <div class="form-group mt-3">
+                        <label class="pb-2" for="Kitchen">Kitchen</label>
+                        <select class="form-control form-select form-control-a" id="Kitchen">
+                            <option value="">Select Kitchen</option>
+                            @foreach (var b in numberList)
+                            {
+                                <option value="@b.Value">@b.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <div class="form-group mt-3">
+                        <label class="pb-2" for="Living">Living Room</label>
+                        <select class="form-control form-select form-control-a" id="Living">
+                            <option value="">Select Living Room</option>
+                            @foreach (var b in numberList)
+                            {
+                                <option value="@b.Value">@b.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <div class="form-group mt-3">
+                        <label class="pb-2" for="Living">Parking</label>
+                        <select class="form-control form-select form-control-a" id="Parking">
+                            <option value="">Select Parking</option>
+                            @foreach (var b in numberList)
+                            {
+                                <option value="@b.Value">@b.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <button id="btnShow" type="button" class="btn btn-b btnShow">Search</button>
+                    <button id="btnResetFilter" type="button" style="background-color:red; color:white" class="btn btn-b btnResetFilter">Reset</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ======= Header/Navbar ======= -->
+    <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
+        <div class="container">
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <a class="navbar-brand text-brand" href="javascript:void(0);">Estate<span class="color-b">Agency</span></a>
+
+            <div style="width:100%; text-align:right; margin-right:5px;">
+                <a href="/Account/Logout" class="btn btn-b-n">
+                    Logout
+                </a>
+                <a href="/Home/PropertyAdd" class="btn btn-b-n ">
+                    <i class="bi bi-plus-circle"></i>
+                </a>
+            </div>
+            <button type="button" class="btn btn-b-n navbar-toggle-box navbar-toggle-box-collapse" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01">
+                <i class="bi bi-search"></i>
+            </button>
+
+        </div>
+    </nav><!-- End Header/Navbar -->
+}
+
+<div id="contentId">
+
+</div>
+
+
+
+@section Scripts
+{
+    <script>
+        $("#contentId").load("/Home/PropertyPartial", { keyword: "", type: '@type', badroom: "", bathroom: "", kitchen: "", parking: "", living: "", status:"" });
+       $(document).ready(function () {
+           $("#btnShow").click(function () {
+               var keyword = $(".keyword").val();
+               var badroom = $("#Badroom").val();
+               var bathroom = $("#Bathroom").val();
+               var parking = $("#Parking").val();
+               var living = $("#Living").val();
+               var kitchen = $("#Kitchen").val();
+               var status = $("#Status").val();
+               $("#contentId").load("/Home/PropertyPartial", { keyword: keyword, type: '@type', badroom: badroom, bathroom: bathroom, kitchen: kitchen, parking: parking, living: living, status: status });
+           })
+           $("#btnResetFilter").click(function () {
+               $(".keyword").val('');
+               $("#Badroom").val('');
+               $("#Bathroom").val('');
+               $("#Parking").val('');
+               $("#Living").val('');
+               $("#Kitchen").val('');
+               $("#Status").val('');
+               $("#contentId").load("/Home/PropertyPartial", { keyword: "", type: '@type', badroom: "", bathroom: "", kitchen: "", parking: "", living: "", status: "" });
+           })
+    })
+
+    </script>
+}

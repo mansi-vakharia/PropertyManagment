@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<style>
+    .card-extra {
+        height: 100px;
+        text-align: center;
+        vertical-align: middle;
+        background: linear-gradient( 45deg, black, #5e1c1c05);
+        color: white;
+        font-size: 30px;
+        text-transform: uppercase;
+        font-family: 'bootstrap-icons';
+        height: auto
+    }
+</style>
+
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <span class="anchor" id="formContact"></span>
+
+                    <!-- form contact -->
+                    <div class="card card-outline-secondary">
+                        <div class="card-header">
+                            <h3 class="mb-0">Choose Options</h3>
+                        </div>
+                        <div class="card-body card-extra">
+                            @{
+                                if (Session["UserType"] != null && Session["UserType"].ToString() == "admin")
+                                {
+
+                                    <div class="row">
+                                        <div class="col-sm-3"></div>
+                                        <div class="col-sm-6">
+                                            <a href="/Home/Index?type=agent" class="tile purple">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        Agent Management
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-3"></div>
+                                    </div>
+                                }
+                                if (Session["UserType"] != null && (Session["UserType"].ToString() == "admin" || Session["UserType"].ToString() == "agent"))
+                                {
+                                    <div class="row">
+                                        <div class="col-sm-3"></div>
+                                        <div class="col-sm-6">
+                                            <a href="/Home/Index?type=client" class="tile purple">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        Client Management
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-3"></div>
+                                    </div>
+                                }
+                                if (Session["UserType"] != null && (Session["UserType"].ToString() == "admin" || Session["UserType"].ToString() == "agent" || Session["UserType"].ToString() == "client"))
+                                {
+
+                                    <div class="row">
+                                        <div class="col-sm-3"></div>
+                                        <div class="col-sm-6">
+                                            <a href="/Home/Index?type=property" class="tile purple">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        Property Management
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-3"></div>
+                                    </div>
+                                }
+
+
+                                <div class="row">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-6">
+                                        <a href="/Account/Logout" class="tile purple">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    Logout
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                            }
+                        </div>
+                    </div><!-- /form contact -->
+                </div><!--/col-->
+            </div>
+        </div><!--/col-->
+    </div><!--/row-->
+</div><!--/container--></div>

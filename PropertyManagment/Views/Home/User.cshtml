@@ -1,0 +1,104 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "User";
+    string type = Session["TypeManagment"].ToString();
+}
+
+@section search{
+
+    <!-- ======= Property Search Section ======= -->
+    <div class="click-closed"></div>
+    <!--/ Form Search Star /-->
+    <div class="box-collapse">
+        <div class="title-box-d">
+            <h3 class="title-d" style="text-transform: capitalize;">Search @type</h3>
+        </div>
+        <span class="close-box-collapse right-boxed bi bi-x"></span>
+        <div class="box-collapse-wrap form">
+
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    <div class="form-group">
+                        <label class="pb-2" for="Type">Keyword</label>
+                        <input type="text" class="keyword form-control form-control-lg form-control-a" placeholder="Keyword">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <button id="btnShow" type="button" class="btn btn-b btnShow">Search</button>
+                    <button id="btnResetFilter" type="button" style="background-color:red; color:white" class="btn btn-b btnShow">Reset</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ======= Header/Navbar ======= -->
+    <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
+        <div class="container">
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <a class="navbar-brand text-brand" href="javascript:void(0);">Estate<span class="color-b">Agency</span></a>
+
+            <div style="width:100%; text-align:right; margin-right:5px;">
+                <a href="/Account/Logout" class="btn btn-b-n">
+                    Logout
+                </a>
+                <a href="/Home/UserAdd" class="btn btn-b-n ">
+                    <i class="bi bi-plus-circle"></i>
+                </a>
+            </div>
+            <button type="button" class="btn btn-b-n navbar-toggle-box navbar-toggle-box-collapse" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01">
+                <i class="bi bi-search"></i>
+            </button>
+
+        </div>
+    </nav><!-- End Header/Navbar -->
+}
+
+<div id="contentId">
+
+</div>
+
+
+
+@section Scripts
+{
+    <script>
+        $("#contentId").load("/Home/UserPartial", { keyword: "", type: '@type' });
+       $(document).ready(function () {
+           $("#btnShow").click(function () {
+               var keyword = $(".keyword").val();
+               $("#contentId").load("/Home/UserPartial", { keyword: keyword, type: '@type' });
+           })
+           $("#btnResetFilter").click(function () {
+               $(".keyword").val('');
+               $("#contentId").load("/Home/UserPartial", { keyword: "", type: '@type' });
+           })
+    })
+
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

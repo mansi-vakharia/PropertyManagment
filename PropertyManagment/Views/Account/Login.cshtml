@@ -1,0 +1,67 @@
+﻿@using PropertyManagment
+@model PropertyManagment.User
+@{
+    ViewBag.Title = "Login";
+    PropertyManagmentEntities db = new PropertyManagmentEntities();
+    var userTypes = new List<SelectListItem>()
+{
+new SelectListItem(){ Text="Admin", Value="admin"},
+new SelectListItem(){ Text="Agent", Value="agent"},
+new SelectListItem(){ Text="Client", Value="client"},
+
+};
+}
+
+@*@if (!string.IsNullOrEmpty(ViewBag.Msg))
+{
+    <script>
+        alert('@ViewBag.Msg')
+    </script>
+}*@
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <span class="anchor" id="formLogin"></span>
+                        <!-- form card login -->
+                        <div class="card card-outline-secondary">
+                            <div class="card-header">
+                                <h3 class="mb-0">Login</h3>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    <label for="uname1">Email</label>
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control required", required = "required" } })
+                                </div>
+                                <div class="form-group m-2">
+                                    <label>Password</label>
+                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control required", required = "required", type = "password" } })
+                                </div>
+                                <div class="form-group m-2">
+                                    <label>Type</label>
+                                    @Html.DropDownListFor(model => model.UserType, userTypes, new { @class = "form-control required", required = "required" })
+                                </div>
+                                @*<div class="form-check small">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox">
+                                            <span>Remember me on this computer</span>
+                                        </label>
+                                    </div>*@
+                                <button class="btn btn-success btn-lg float-right m-4" type="submit">Login</button>
+
+                            </div><!--/card-block-->
+                        </div><!-- /form card login -->
+                    </div>
+                </div>
+
+
+            }
+        </div><!--/col-->
+    </div><!--/row-->
+</div><!--/container-->

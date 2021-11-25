@@ -1,0 +1,210 @@
+﻿@using PropertyManagment
+@model PropertyManagment.Property
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Property";
+    PropertyManagmentEntities db = new PropertyManagmentEntities();
+    var users = new List<SelectListItem>();
+    string type = Session["TypeManagment"].ToString();
+    //if (type == "client")
+    //{
+    //    users = db.Users.ToList().Where(w => w.UserType.ToLower() == "agent").Select(s => new SelectListItem()
+    //    {
+    //        Text = "" + s.FullName + "(" + s.MobileNo + ")",
+    //        Value = s.Id.ToString()
+    //    }).ToList();
+    //}
+    if (type == "property")
+    {
+        var loginUserId = Convert.ToInt32(Session["Id"]);
+        users = db.Users.ToList().Where(w => w.UserType.ToLower() == "client" && w.Id != loginUserId).Select(s => new SelectListItem()
+        {
+            Text = "" + s.FullName + "(" + s.MobileNo + ")",
+            Value = s.Id.ToString()
+        }).ToList();
+    }
+    var numberList = new List<SelectListItem>() {
+     new SelectListItem() { Text = "1", Value = "1" },
+new SelectListItem() { Text = "2", Value = "2" },
+new SelectListItem() { Text = "3", Value = "3" },
+new SelectListItem() { Text = "4", Value = "4" },
+new SelectListItem() { Text = "5", Value = "5" }
+};
+    //numberList=numberList.Add(
+    //new SelectListItem() { Text = "1", Value = "1" },
+    //new SelectListItem() { Text = "2", Value = "2" },
+    //new SelectListItem() { Text = "3", Value = "3" },
+    //new SelectListItem() { Text = "4", Value = "4" },
+    //new SelectListItem() { Text = "5", Value = "5" }
+    //);
+}
+
+@*@if (!string.IsNullOrEmpty(ViewBag.Msg))
+    {
+        <script>
+            alert('@ViewBag.Msg')
+        </script>
+    }*@
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <span class="anchor" id="formContact"></span>
+
+                    <!-- form contact -->
+                    <div class="card card-outline-secondary">
+                        <div class="card-header">
+                            <h3 class="mb-0" style="text-transform: capitalize">@(Model.Id > 0 ? "Modify" : "Add") @type</h3>
+                        </div>
+                        <div class="card-body">
+                            @using (Html.BeginForm("PropertyAdd", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                @Html.HiddenFor(model => model.ImagePath)
+                            <div class="row">
+                                <div class="col-md-4 mt-2">
+                                    <div class="form-group">
+                                        <label>Property Number <em>*</em></label>
+                                        @Html.EditorFor(model => model.PropertyNumber, new { htmlAttributes = new { @class = "form-control required", required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.PropertyNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4  mt-2">
+                                    <div class="form-group">
+                                        <label>Title <em>*</em></label>
+                                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4  mt-2">
+                                    <div class="form-group">
+                                        <label>Address <em>*</em></label>
+                                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <h3>Other Details</h3>
+                                <div class="col-md-4  mt-2">
+                                    <div class="form-group">
+                                        <label>Badroom <em>*</em></label>
+                                        @Html.DropDownListFor(model => model.Badroom, numberList, "Select Badroom", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Badroom, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4  mt-2">
+                                    <div class="form-group">
+                                        <label>Bathroom <em>*</em></label>
+                                        @Html.DropDownListFor(model => model.Bathroom, numberList, "Select Bathroom", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Bathroom, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4  mt-2">
+                                    <div class="form-group">
+                                        <label>Kitchen <em>*</em></label>
+                                        @Html.DropDownListFor(model => model.Kitchen, numberList, "Select Kitchen", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Kitchen, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4  mt-2">
+                                    <div class="form-group">
+                                        <label>Parking <em>*</em></label>
+                                        @Html.DropDownListFor(model => model.Parking, numberList, "Select Parking", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Parking, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4  mt-2">
+                                    <div class="form-group">
+                                        <label>Size <em>*</em></label>
+                                        @Html.EditorFor(model => model.Size, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4  mt-2">
+                                    <div class="form-group">
+                                        <label>Type <em></em></label>
+                                        @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4  mt-2">
+                                    <div class="form-group">
+                                        <label>Living Room <em>*</em></label>
+                                        @Html.DropDownListFor(model => model.Livingroom, numberList, "Select Livingroom", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Livingroom, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-4  mt-2">
+                                    <div class="form-group">
+                                        <label>Living Room <em>*</em></label>
+                                        @Html.DropDownListFor(model => model.Status, numberList, "Select Status", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-4  mt-2">
+                                    <div class="form-group">
+                                        <label>Price <em>*</em></label>
+                                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control required", @type = "number", required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                @*@if (type != "Admin")
+        {*@
+                                <div class="col-md-4  mt-2">
+                                    <div class="form-group">
+                                        <label>Client Number <em>*</em></label>
+                                        @Html.DropDownListFor(model => model.ClientId, users, "Select Client", new { @class = "form-control required" })
+                                        @Html.ValidationMessageFor(model => model.ClientId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                @*}*@
+                                <div class="col-md-4  mt-2">
+                                    <div class="form-group">
+                                        <label>Photo <em>*</em></label>
+                                        <input id="image" type="file" name="file" onchange="encodeImgtoBase64(this)" class="form-control" @(string.IsNullOrEmpty(Model.ImagePath) ? "required" : "" ) />
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt-2 ">
+                                    <div class="form-group">
+                                        @if (!string.IsNullOrEmpty(Model.ImagePath))
+                                        {
+                                            <img id="base64img" src="/UploadFiles/@Model.ImagePath" width="100" height="100" />
+                                        }
+                                        else
+                                        {
+                                            <img id="base64img" width="100" height="100" />
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mt-2">
+                                    <div class="form-group">
+                                        <input class="btn btn-primary btn-lg float-right" type="submit" value="@(Model.Id > 0 ? "Update": "Submit")">
+                                        @*<button class="btn btn-primary btn-lg float-right" type="submit">Submit</button>*@
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div><!-- /form contact -->
+                </div><!--/col-->
+            </div>
+        </div><!--/col-->
+    </div><!--/row-->
+</div><!--/container-->
+<!-- Scroll to Top -->
+@section Scripts{
+    <script>
+        function encodeImgtoBase64(element) {
+            var img = element.files[0];
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                $("#base64img").attr("src", reader.result)
+                //$("#convertImg").text(reader.result);
+            }
+            reader.readAsDataURL(img);
+        }
+    </script>
+} 
